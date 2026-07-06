@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 
   site: {
     name: "KASANE 菓",
+    url: "https://dessert.christylove.com.tw",
     description: "日式甜點、和菓子、日本茶與季節禮盒。",
     defaultLocale: "zh-TW",
   },

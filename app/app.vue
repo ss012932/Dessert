@@ -74,6 +74,14 @@ const isLoadingLeaving = ref(false);
 let leaveTimer: ReturnType<typeof window.setTimeout> | undefined;
 let hideTimer: ReturnType<typeof window.setTimeout> | undefined;
 
+// 控制網站正式網址，分享預覽的 og:url 會使用這個網址。
+const siteUrl = 'https://dessert.christylove.com.tw/';
+
+// 控制 LINE / Facebook / X 分享時要顯示的圖片。
+// 注意：這是 Nuxt build 後產生的 hashed 圖片路徑，之後重新 build 可能會改變檔名。
+const shareImageUrl = 'https://dessert.christylove.com.tw/_nuxt/logo.kNNZPrz8.webp';
+
+// 控制初次進站 loading 畫面顯示與離場動畫。
 function showInitialBrandLoading() {
   isLoadingVisible.value = true;
   isLoadingLeaving.value = false;
@@ -111,6 +119,34 @@ useHead({
     { name: 'theme-color', content: '#4F6F52' },
     { charset: 'utf-8' },
   ],
-  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }],
+  link: [
+    {
+      // 控制瀏覽器分頁 icon，不是分享預覽圖。
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico?v=2',
+    },
+  ],
+});
+
+useSeoMeta({
+  // 控制一般搜尋結果與瀏覽器標題。
+  title: 'KASANE 菓｜日式甜點與茶香禮盒',
+  description: '少量手作日式甜點、和菓子與茶品搭配，適合內用、預約取貨與送禮。',
+
+  // 控制 LINE / Facebook / Messenger 分享預覽內容。
+  ogTitle: 'KASANE 菓｜日式甜點與茶香禮盒',
+  ogDescription: '少量手作日式甜點、和菓子與茶品搭配，適合內用、預約取貨與送禮。',
+  ogType: 'website',
+  ogUrl: siteUrl,
+  ogSiteName: 'KASANE 菓',
+  ogImage: shareImageUrl,
+  ogImageType: 'image/webp',
+
+  // 控制 X / Twitter 分享卡片。
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'KASANE 菓｜日式甜點與茶香禮盒',
+  twitterDescription: '少量手作日式甜點、和菓子與茶品搭配，適合內用、預約取貨與送禮。',
+  twitterImage: shareImageUrl,
 });
 </script>

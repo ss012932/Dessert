@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KASANE 菓｜Taste Skill 動態首頁預覽</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      background: #f6f2ea;
+      color: #2f2a24;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial, sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    /* 載入動畫：套用 Taste Skill 的 Enter 曲線，讓品牌進場有收尾質感 */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f6f2ea;
+      transition:
+        opacity 760ms cubic-bezier(0.7, 0, 0.84, 0),
+        visibility 760ms cubic-bezier(0.7, 0, 0.84, 0);
+    }
+
+    .loading-screen.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loading-mark {
+      position: relative;
+      width: 240px;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading-circle {
+      position: absolute;
+      width: 168px;
+      height: 168px;
+      border: 1px solid #c9bda9;
+      border-radius: 999px;
+      animation: loadingCircle 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .loading-line {
+      position: absolute;
+      width: 1px;
+      height: 112px;
+      background: #4f6f52;
+      transform-origin: center bottom;
+      animation: loadingLine 1250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .loading-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: #b84d3f;
+      transform: translate(56px, -58px);
+      animation: loadingDot 1000ms cubic-bezier(0.16, 1, 0.3, 1) 220ms both;
+    }
+
+    .loading-text {
+      position: absolute;
+      bottom: 10px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 24px;
+      letter-spacing: 5px;
+      color: #2f2a24;
+      opacity: 0;
+      animation: loadingText 850ms cubic-bezier(0.16, 1, 0.3, 1) 420ms forwards;
+    }
+
+    @keyframes loadingCircle {
+      0% { transform: scale(0.82) rotate(-16deg); opacity: 0; filter: blur(4px); }
+      100% { transform: scale(1) rotate(0); opacity: 1; filter: blur(0); }
+    }
+
+    @keyframes loadingLine {
+      0% { transform: scaleY(0) rotate(0); opacity: 0; }
+      48% { opacity: 1; }
+      100% { transform: scaleY(1) rotate(42deg); opacity: 1; }
+    }
+
+    @keyframes loadingDot {
+      0% { transform: translate(44px, -44px) scale(0.3); opacity: 0; }
+      100% { transform: translate(56px, -58px) scale(1); opacity: 1; }
+    }
+
+    @keyframes loadingText {
+      from { opacity: 0; transform: translateY(12px); filter: blur(5px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    /* 頁面進場：不是單純 opacity，而是位移 + blur 復原 */
+    .page-shell {
+      opacity: 0;
+      transform: translateY(14px);
+      filter: blur(5px);
+      transition:
+        opacity 900ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 900ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .page-shell.is-ready {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    /* Header：固定導覽，毛玻璃只做很薄一層，避免科技感過重 */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
+      background: rgba(246, 242, 234, 0.78);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 8px 32px rgba(47, 42, 36, 0.07);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-inner {
+      max-width: 1280px;
+      height: 86px;
+      margin: 0 auto;
+      padding: 0 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-name {
+      text-decoration: none;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 27px;
+      letter-spacing: 4px;
+      color: #2f2a24;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .header-nav a {
+      position: relative;
+      text-decoration: none;
+      color: #645d52;
+      font-size: 13px;
+      letter-spacing: 2px;
+      transition:
+        color 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .header-nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 0;
+      height: 1px;
+      background: #4f6f52;
+      transition: width 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .header-nav a:hover {
+      color: #4f6f52;
+      transform: translateY(-2px);
+    }
+
+    .header-nav a:hover::after {
+      width: 100%;
+    }
+
+    .taste-button,
+    .header-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 999px;
+      background: #4f6f52;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 1px;
+      box-shadow: 0 18px 42px rgba(79, 111, 82, 0.2);
+      transition:
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        background 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .header-button {
+      height: 42px;
+      padding: 0 24px;
+      font-size: 14px;
+    }
+
+    .taste-button span,
+    .header-button span {
+      transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .taste-button:hover,
+    .header-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 54px rgba(79, 111, 82, 0.25);
+      background: #425f45;
+    }
+
+    .taste-button:hover span:last-child,
+    .header-button:hover span:last-child {
+      transform: translateX(4px);
+    }
+
+    .taste-button:active,
+    .header-button:active {
+      transform: scale(0.96);
+      box-shadow: 0 8px 20px rgba(79, 111, 82, 0.16);
+    }
+
+    .ghost-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      height: 56px;
+      padding: 0 32px;
+      border-radius: 999px;
+      color: #4f6f52;
+      border: 1px solid #4f6f52;
+      background: rgba(255, 253, 248, 0.52);
+      text-decoration: none;
+      font-size: 15px;
+      letter-spacing: 1px;
+      transition:
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        background 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .ghost-button span {
+      transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .ghost-button:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 253, 248, 0.9);
+      box-shadow: 0 16px 34px rgba(47, 42, 36, 0.08);
+    }
+
+    .ghost-button:hover span:last-child {
+      transform: translateX(4px);
+    }
+
+    .ghost-button:active {
+      transform: scale(0.96);
+    }
+
+    /* Hero：保留精緻商品照片，加入更有層次的進場與微視差 */
+    .hero-section {
+      position: relative;
+      min-height: 990px;
+      padding: 158px 34px 96px 34px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 85% 16%, rgba(215, 202, 178, 0.38), transparent 28%),
+        linear-gradient(135deg, #f6f2ea 0%, #fffdf8 54%, #efe8db 100%);
+    }
+
+    .hero-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(126, 110, 84, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(126, 110, 84, 0.04) 1px, transparent 1px);
+      background-size: 90px 90px;
+      mask-image: linear-gradient(to bottom, #000, transparent 78%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.88fr 1.12fr;
+      gap: 76px;
+      align-items: center;
+    }
+
+    .hero-kicker,
+    .section-kicker {
+      color: #4f6f52;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 58px;
+      height: 1px;
+      background: #4f6f52;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #2f2a24;
+      font-weight: 400;
+      font-size: 86px;
+      line-height: 1.05;
+      letter-spacing: -2px;
+    }
+
+    .hero-title span {
+      display: block;
+    }
+
+    .hero-description {
+      max-width: 540px;
+      margin: 34px 0 0 0;
+      color: #70685d;
+      font-size: 19px;
+      line-height: 2;
+      letter-spacing: 0.4px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-top: 46px;
+    }
+
+    .hero-meta-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      max-width: 560px;
+      margin-top: 58px;
+    }
+
+    .hero-meta-item {
+      padding: 18px 16px;
+      border-top: 1px solid #d6cbbb;
+    }
+
+    .hero-meta-item strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #2f2a24;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .hero-meta-item span {
+      color: #7c7469;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .hero-gallery {
+      position: relative;
+      height: 720px;
+      perspective: 1000px;
+    }
+
+    .photo-frame {
+      overflow: hidden;
+      background: #ddd2c2;
+    }
+
+    .photo-frame img {
+      transform: scale(1.06);
+      transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .photo-frame:hover img {
+      transform: scale(1.12);
+    }
+
+    .hero-photo-main {
+      position: absolute;
+      top: 18px;
+      right: 0;
+      width: 500px;
+      height: 650px;
+      border-radius: 44px;
+      box-shadow: 0 34px 90px rgba(47, 42, 36, 0.18);
+      animation: photoFloatMain 7s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .hero-photo-side {
+      position: absolute;
+      left: 0;
+      bottom: 80px;
+      width: 260px;
+      height: 340px;
+      border-radius: 34px;
+      box-shadow: 0 28px 70px rgba(47, 42, 36, 0.14);
+      animation: photoFloatSide 6.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .hero-photo-tiny {
+      position: absolute;
+      right: 388px;
+      top: 82px;
+      width: 178px;
+      height: 178px;
+      border-radius: 999px;
+      border: 8px solid #f6f2ea;
+      box-shadow: 0 24px 60px rgba(47, 42, 36, 0.16);
+      animation: photoFloatTiny 5.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .season-stamp {
+      position: absolute;
+      right: 24px;
+      top: 54px;
+      width: 112px;
+      height: 112px;
+      border-radius: 999px;
+      border: 1px solid #b84d3f;
+      color: #b84d3f;
+      background: rgba(255, 253, 248, 0.72);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      line-height: 1.45;
+      letter-spacing: 2px;
+      transform: rotate(8deg);
+      animation: stampFloat 5.5s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .hero-note-card {
+      position: absolute;
+      left: 120px;
+      bottom: 26px;
+      width: 288px;
+      padding: 24px 26px;
+      border-radius: 28px;
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      box-shadow: 0 28px 70px rgba(47, 42, 36, 0.16);
+      backdrop-filter: blur(18px);
+      animation: noteFloat 5.2s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    .hero-note-card strong {
+      display: block;
+      margin-bottom: 9px;
+      color: #2f2a24;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .hero-note-card span {
+      color: #756f66;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .steam-line {
+      position: absolute;
+      width: 54px;
+      height: 130px;
+      border-left: 1px solid rgba(118, 106, 88, 0.36);
+      border-radius: 999px;
+      opacity: 0;
+      animation: steamRise 5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    .steam-line-one { left: 238px; top: 14px; animation-delay: 0.2s; }
+    .steam-line-two { left: 314px; top: 44px; animation-delay: 1.4s; }
+    .steam-line-three { right: 80px; top: 250px; animation-delay: 2.1s; }
+
+    @keyframes photoFloatMain {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(-0.8deg); }
+    }
+
+    @keyframes photoFloatSide {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(12px) rotate(-1deg); }
+    }
+
+    @keyframes photoFloatTiny {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.02); }
+    }
+
+    @keyframes stampFloat {
+      0%, 100% { transform: translateY(0) rotate(8deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    @keyframes noteFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes steamRise {
+      0% { transform: translateY(24px) scaleY(0.62); opacity: 0; }
+      34% { opacity: 0.52; }
+      100% { transform: translateY(-32px) scaleY(1.1); opacity: 0; }
+    }
+
+    /* Taste reveal：用 JS 加 class，模擬 GSAP stagger，但不額外引入套件 */
+    .taste-reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      filter: blur(8px);
+      transition:
+        opacity 850ms cubic-bezier(0.16, 1, 0.3, 1),
+        transform 850ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 850ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition-delay: 0ms;
+    }
+
+    .taste-reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+
+    .taste-reveal.delay-1 { transition-delay: 60ms; }
+    .taste-reveal.delay-2 { transition-delay: 120ms; }
+    .taste-reveal.delay-3 { transition-delay: 180ms; }
+    .taste-reveal.delay-4 { transition-delay: 240ms; }
+
+    /* 內容區共用樣式：留白保留，但每段都補上購買理由 */
+    .content-section {
+      padding: 128px 34px;
+    }
+
+    .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-heading-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 44px;
+      margin-bottom: 64px;
+    }
+
+    .section-kicker {
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 54px;
+      line-height: 1.16;
+      font-weight: 400;
+      letter-spacing: -1px;
+      color: #2f2a24;
+    }
+
+    .section-note {
+      max-width: 460px;
+      margin: 0;
+      color: #756f66;
+      font-size: 17px;
+      line-height: 1.9;
+    }
+
+    /* 今日甜點：錯落卡片 + Hover 圖片慢速放大 + 4deg 內的空間感 */
+    .today-section {
+      background: #fffdf8;
+    }
+
+    .dessert-showcase {
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr 0.9fr;
+      gap: 26px;
+      align-items: stretch;
+      perspective: 1000px;
+    }
+
+    .dessert-card {
+      position: relative;
+      min-height: 410px;
+      border-radius: 34px;
+      overflow: hidden;
+      background: #ddd2c2;
+      text-decoration: none;
+      box-shadow: 0 24px 70px rgba(47, 42, 36, 0.1);
+      transition:
+        transform 240ms cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 240ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .dessert-card img {
+      transform: scale(1.04);
+      transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dessert-card:hover {
+      transform: translateY(-8px) rotateX(3deg) rotateY(-2deg);
+      box-shadow: 0 32px 90px rgba(47, 42, 36, 0.16);
+    }
+
+    .dessert-card:hover img {
+      transform: scale(1.11);
+    }
+
+    .dessert-card:active {
+      transform: scale(0.98);
+    }
+
+    .dessert-card-large {
+      min-height: 560px;
+    }
+
+    .dessert-card-offset {
+      margin-top: 76px;
+    }
+
+    .dessert-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(47, 42, 36, 0.78), rgba(47, 42, 36, 0.12), transparent 62%);
+    }
+
+    .dessert-card-content {
+      position: absolute;
+      left: 28px;
+      right: 28px;
+      bottom: 28px;
+      z-index: 1;
+      color: #ffffff;
+      transition: transform 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .dessert-card:hover .dessert-card-content {
+      transform: translateY(-4px);
+    }
+
+    .dessert-card-content h3 {
+      margin: 0 0 10px 0;
+      font-size: 27px;
+      font-weight: 500;
+      letter-spacing: 1px;
+    }
+
+    .dessert-card-content p {
+      max-width: 340px;
+      margin: 0 0 18px 0;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .dessert-card-meta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: #ffffff;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .dessert-card-meta::before {
+      content: "";
+      width: 38px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    /* 季節禮盒：毛玻璃控制在精品感，不做強烈科技風 */
+    .gift-section {
+      background: #f6f2ea;
+    }
+
+    .gift-layout {
+      display: grid;
+      grid-template-columns: 0.92fr 1.08fr;
+      gap: 52px;
+      align-items: center;
+    }
+
+    .gift-photo {
+      height: 620px;
+      border-radius: 42px;
+      overflow: hidden;
+      box-shadow: 0 32px 90px rgba(47, 42, 36, 0.14);
+    }
+
+    .gift-photo img,
+    .craft-photo img,
+    .reserve-photo img {
+      transform: scale(1.08);
+      transition: transform 1200ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gift-photo:hover img,
+    .craft-photo:hover img,
+    .reserve-photo:hover img {
+      transform: scale(1.14);
+    }
+
+    .gift-panel {
+      padding: 54px;
+      border: 1px solid rgba(255, 255, 255, 0.58);
+      border-radius: 42px;
+      background: rgba(255, 253, 248, 0.66);
+      box-shadow: 0 8px 32px rgba(47, 42, 36, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .gift-panel h2 {
+      margin: 0 0 26px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 52px;
+      line-height: 1.18;
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
+
+    .gift-panel p {
+      margin: 0 0 32px 0;
+      color: #756f66;
+      font-size: 17px;
+      line-height: 1.95;
+    }
+
+    .gift-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 38px;
+      perspective: 1000px;
+    }
+
+    .gift-item {
+      padding: 20px;
+      border-radius: 24px;
+      background: #ffffff;
+      border: 1px solid #ebe4d8;
+      transition:
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .gift-item:hover {
+      transform: translateY(-4px) rotateX(2deg);
+      box-shadow: 0 18px 40px rgba(47, 42, 36, 0.08);
+    }
+
+    .gift-item strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 17px;
+      font-weight: 500;
+    }
+
+    .gift-item span {
+      color: #756f66;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* 職人製作：暗色底用低飽和色，讓照片與文字都更沉穩 */
+    .craft-section {
+      background: #2f2a24;
+      color: #ffffff;
+    }
+
+    .craft-section .section-title {
+      color: #ffffff;
+    }
+
+    .craft-section .section-note {
+      color: #d6cfc3;
+    }
+
+    .craft-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 32px;
+      align-items: stretch;
+    }
+
+    .craft-photo {
+      min-height: 560px;
+      border-radius: 40px;
+      overflow: hidden;
+      opacity: 0.95;
+    }
+
+    .craft-steps {
+      display: grid;
+      gap: 18px;
+    }
+
+    .craft-step {
+      padding: 30px;
+      border: 1px solid rgba(214, 207, 195, 0.22);
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.04);
+      transition:
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        background 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        border-color 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .craft-step:hover {
+      transform: translateX(8px);
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(214, 207, 195, 0.38);
+    }
+
+    .craft-step small {
+      display: block;
+      margin-bottom: 12px;
+      color: #b7c8aa;
+      letter-spacing: 3px;
+    }
+
+    .craft-step h3 {
+      margin: 0 0 10px 0;
+      font-size: 23px;
+      font-weight: 500;
+    }
+
+    .craft-step p {
+      margin: 0;
+      color: #d6cfc3;
+      font-size: 15px;
+      line-height: 1.9;
+    }
+
+    /* 茶點搭配：卡片 stagger + 輕微上浮，增加探索感 */
+    .pairing-section {
+      background: #fffdf8;
+    }
+
+    .pairing-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      perspective: 1000px;
+    }
+
+    .pairing-card {
+      padding: 18px;
+      border: 1px solid #e5dfd3;
+      border-radius: 30px;
+      background: #f6f2ea;
+      transition:
+        transform 220ms cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 220ms cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .pairing-card:hover {
+      transform: translateY(-6px) rotateX(3deg);
+      box-shadow: 0 26px 60px rgba(47, 42, 36, 0.1);
+    }
+
+    .pairing-card:active {
+      transform: scale(0.98);
+    }
+
+    .pairing-image {
+      height: 230px;
+      margin-bottom: 20px;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .pairing-image img {
+      transform: scale(1.06);
+      transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pairing-card:hover .pairing-image img {
+      transform: scale(1.12);
+    }
+
+    .pairing-card h3 {
+      margin: 0 0 8px 0;
+      font-size: 21px;
+      font-weight: 500;
+    }
+
+    .pairing-card p {
+      margin: 0;
+      color: #756f66;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    /* 預約區：最後給明確行動，保留高級暗色底 */
+    .reserve-section {
+      padding: 128px 34px;
+      background: linear-gradient(135deg, #f6f2ea 0%, #ebe1d1 100%);
+    }
+
+    .reserve-panel {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 42px;
+      border-radius: 46px;
+      overflow: hidden;
+      background: #2f2a24;
+      color: #ffffff;
+      box-shadow: 0 34px 100px rgba(47, 42, 36, 0.18);
+    }
+
+    .reserve-content {
+      padding: 64px;
+    }
+
+    .reserve-content h2 {
+      margin: 0 0 24px 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 52px;
+      line-height: 1.18;
+      font-weight: 400;
+      letter-spacing: -1px;
+    }
+
+    .reserve-content p {
+      margin: 0 0 34px 0;
+      color: #d6cfc3;
+      font-size: 17px;
+      line-height: 1.95;
+    }
+
+    .reserve-info-list {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .reserve-info-list span {
+      color: #efe7dc;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+    }
+
+    .reserve-photo {
+      min-height: 520px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 1080px) {
+      .header-nav {
+        display: none;
+      }
+
+      .hero-inner,
+      .gift-layout,
+      .craft-grid,
+      .reserve-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-title {
+        font-size: 60px;
+      }
+
+      .hero-gallery {
+        height: 680px;
+      }
+
+      .dessert-showcase,
+      .pairing-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .dessert-card-offset {
+        margin-top: 0;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .header-inner {
+        height: 74px;
+        padding: 0 20px;
+      }
+
+      .brand-name {
+        font-size: 21px;
+      }
+
+      .header-button {
+        height: 38px;
+        padding: 0 16px;
+      }
+
+      .hero-section {
+        min-height: auto;
+        padding: 118px 20px 70px 20px;
+      }
+
+      .hero-title {
+        font-size: 42px;
+        letter-spacing: -1px;
+      }
+
+      .hero-description {
+        font-size: 16px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-meta-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-gallery {
+        height: 580px;
+      }
+
+      .hero-photo-main {
+        width: 82%;
+        height: 470px;
+      }
+
+      .hero-photo-side {
+        width: 46%;
+        height: 240px;
+      }
+
+      .hero-photo-tiny {
+        right: 42%;
+        top: 30px;
+        width: 138px;
+        height: 138px;
+      }
+
+      .hero-note-card {
+        left: 26px;
+        right: 26px;
+        bottom: 0;
+        width: auto;
+      }
+
+      .content-section,
+      .reserve-section {
+        padding: 76px 20px;
+      }
+
+      .section-heading-row {
+        display: block;
+      }
+
+      .section-title,
+      .gift-panel h2,
+      .reserve-content h2 {
+        font-size: 36px;
+      }
+
+      .section-note {
+        margin-top: 20px;
+      }
+
+      .dessert-showcase,
+      .pairing-grid,
+      .gift-list {
+        grid-template-columns: 1fr;
+      }
+
+      .dessert-card,
+      .dessert-card-large {
+        min-height: 440px;
+      }
+
+      .gift-photo,
+      .craft-photo,
+      .reserve-photo {
+        min-height: 380px;
+      }
+
+      .gift-panel,
+      .reserve-content {
+        padding: 34px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+
+      .taste-reveal {
+        opacity: 1;
+        transform: none;
+        filter: none;
+      }
+    }
+  </style>
+</head>
+<body class="is-loading">
+  <div class="loading-screen" id="loadingScreen" aria-label="頁面載入中">
+    <div class="loading-mark">
+      <div class="loading-circle"></div>
+      <div class="loading-line"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-text">KASANE 菓</div>
+    </div>
+  </div>
+
+  <div class="page-shell" id="pageShell">
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand-name" href="#">KASANE 菓</a>
+        <nav class="header-nav" aria-label="主要導覽">
+          <a href="#today">今日甜點</a>
+          <a href="#gift">季節禮盒</a>
+          <a href="#craft">製作方式</a>
+          <a href="#pairing">茶點搭配</a>
+          <a href="#reserve">店鋪資訊</a>
+        </nav>
+        <a class="header-button" href="#reserve"><span>預約取貨</span><span>→</span></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-section">
+        <div class="hero-inner">
+          <div class="hero-content">
+            <div class="hero-kicker taste-reveal">SEASONAL WAGASHI</div>
+            <h1 class="hero-title taste-reveal delay-1">
+              <span>一日一菓，</span>
+              <span>把季節留在午後</span>
+            </h1>
+            <p class="hero-description taste-reveal delay-2">
+              以抹茶、白餡、熟成水果與手作餅皮，做成安靜但有記憶點的日式甜點。每日少量製作，甜度依季節調整。
+            </p>
+            <div class="hero-actions taste-reveal delay-3">
+              <a class="taste-button" href="#today"><span>查看今日甜點</span><span>→</span></a>
+              <a class="ghost-button" href="#gift"><span>看季節禮盒</span><span>→</span></a>
+            </div>
+
+            <div class="hero-meta-list taste-reveal delay-4">
+              <div class="hero-meta-item">
+                <strong>每日少量</strong>
+                <span>上午製作，售完即止。</span>
+              </div>
+              <div class="hero-meta-item">
+                <strong>茶點搭配</strong>
+                <span>依甜點推薦焙茶、煎茶或抹茶。</span>
+              </div>
+              <div class="hero-meta-item">
+                <strong>預約取貨</strong>
+                <span>適合生日、伴手禮與午後聚會。</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-gallery taste-reveal delay-2" aria-label="日式甜點商品圖片展示">
+            <div class="steam-line steam-line-one"></div>
+            <div class="steam-line steam-line-two"></div>
+            <div class="steam-line steam-line-three"></div>
+
+            <div class="hero-photo-main photo-frame" data-parallax="0.08">
+              <img src="https://source.unsplash.com/900x1200/?wagashi,japanese-dessert,matcha" alt="精緻日式和菓子主視覺" />
+              <div class="season-stamp">季節<br />限定</div>
+            </div>
+
+            <div class="hero-photo-side photo-frame" data-parallax="0.14">
+              <img src="https://source.unsplash.com/620x820/?dorayaki,daifuku,japanese-tea" alt="日式甜點與茶點搭配" />
+            </div>
+
+            <div class="hero-photo-tiny photo-frame" data-parallax="0.2">
+              <img src="https://source.unsplash.com/480x480/?mochi,strawberry-daifuku" alt="草莓大福細節" />
+            </div>
+
+            <div class="hero-note-card">
+              <strong>今日主菓｜抹茶柚子最中</strong>
+              <span>抹茶餡壓低甜度，柚子皮只留一點尾韻，適合搭配熱焙茶。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="today" class="content-section today-section">
+        <div class="section-inner">
+          <div class="section-heading-row taste-reveal">
+            <div>
+              <div class="section-kicker">TODAY'S SWEETS</div>
+              <h2 class="section-title">今日做好的甜點</h2>
+            </div>
+            <p class="section-note">這一區不再只放三張普通卡片，而是用不同高度的商品圖，讓客人一進來就有探索感。</p>
+          </div>
+
+          <div class="dessert-showcase">
+            <a class="dessert-card dessert-card-large taste-reveal" href="#reserve">
+              <img src="https://source.unsplash.com/900x1200/?wagashi,matcha,sweets" alt="抹茶柚子最中" />
+              <div class="dessert-card-content">
+                <h3>抹茶柚子最中</h3>
+                <p>宇治抹茶餡、柚子皮與薄脆最中殼，入口先苦後甜。</p>
+                <div class="dessert-card-meta">NT$ 120｜今日限量</div>
+              </div>
+            </a>
+
+            <a class="dessert-card dessert-card-offset taste-reveal delay-1" href="#reserve">
+              <img src="https://source.unsplash.com/760x980/?japanese-pudding,hojicha,dessert" alt="焙茶布丁" />
+              <div class="dessert-card-content">
+                <h3>焙茶布丁</h3>
+                <p>茶香厚，焦糖淺，適合第一次來店的客人。</p>
+                <div class="dessert-card-meta">NT$ 95｜冷藏甜點</div>
+              </div>
+            </a>
+
+            <a class="dessert-card taste-reveal delay-2" href="#reserve">
+              <img src="https://source.unsplash.com/760x980/?strawberry-daifuku,mochi,japanese" alt="草莓大福" />
+              <div class="dessert-card-content">
+                <h3>草莓大福</h3>
+                <p>白餡包住當季草莓，果酸會讓甜度更乾淨。</p>
+                <div class="dessert-card-meta">NT$ 130｜季節水果</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section id="gift" class="content-section gift-section">
+        <div class="section-inner gift-layout">
+          <div class="gift-photo taste-reveal">
+            <img src="https://source.unsplash.com/900x1200/?japanese-gift-box,wagashi,sweets" alt="季節和菓子禮盒" />
+          </div>
+
+          <div class="gift-panel taste-reveal delay-1">
+            <div class="section-kicker">SEASONAL GIFT</div>
+            <h2>不是把甜點裝進盒子，是把一個午後送出去</h2>
+            <p>
+              禮盒區是用來留住客人的關鍵，因為它讓網站不只是展示品牌，而是讓訪客想到生日、拜訪、節日與伴手禮需求。
+            </p>
+
+            <div class="gift-list">
+              <div class="gift-item taste-reveal"> <strong>三入小盒</strong><span>適合第一次品嚐，也適合午後茶席。</span></div>
+              <div class="gift-item taste-reveal delay-1"> <strong>六入季節盒</strong><span>可混搭大福、最中、銅鑼燒。</span></div>
+              <div class="gift-item taste-reveal delay-2"> <strong>企業贈禮</strong><span>可預約批量製作與客製小卡。</span></div>
+              <div class="gift-item taste-reveal delay-3"> <strong>冷藏取貨</strong><span>取貨前一日確認品項與保存方式。</span></div>
+            </div>
+
+            <a class="taste-button" href="#reserve"><span>預約禮盒</span><span>→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="craft" class="content-section craft-section">
+        <div class="section-inner">
+          <div class="section-heading-row taste-reveal">
+            <div>
+              <div class="section-kicker">CRAFT PROCESS</div>
+              <h2 class="section-title">讓客人願意相信你的甜點</h2>
+            </div>
+            <p class="section-note">首頁太空的原因通常是只有商品，沒有理由。這一段補上製作方式，讓品牌看起來更真實。</p>
+          </div>
+
+          <div class="craft-grid">
+            <div class="craft-photo taste-reveal">
+              <img src="https://source.unsplash.com/1000x1200/?japanese-dessert-making,wagashi,chef" alt="日式甜點製作過程" />
+            </div>
+
+            <div class="craft-steps">
+              <div class="craft-step taste-reveal delay-1">
+                <small>01 MATERIAL</small>
+                <h3>餡料依季節調整</h3>
+                <p>水果酸度不同，白餡與糖量也會調整，不做一年四季都一樣的味道。</p>
+              </div>
+              <div class="craft-step taste-reveal delay-2">
+                <small>02 TEXTURE</small>
+                <h3>口感比甜度更重要</h3>
+                <p>最中殼要脆，大福要柔，布丁要細。甜點的記憶點常常不是甜，而是口感。</p>
+              </div>
+              <div class="craft-step taste-reveal delay-3">
+                <small>03 SERVING</small>
+                <h3>搭配茶，而不是只拍照</h3>
+                <p>每一款甜點會附上建議茶飲，讓客人知道怎麼吃最剛好。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="pairing" class="content-section pairing-section">
+        <div class="section-inner">
+          <div class="section-heading-row taste-reveal">
+            <div>
+              <div class="section-kicker">TEA PAIRING</div>
+              <h2 class="section-title">今日甜點，適合配哪一杯茶</h2>
+            </div>
+            <p class="section-note">加入搭配建議，可以讓客人停留更久，也讓商品看起來不只是單品，而是一整套體驗。</p>
+          </div>
+
+          <div class="pairing-grid">
+            <div class="pairing-card taste-reveal">
+              <div class="pairing-image"><img src="https://source.unsplash.com/700x700/?matcha-tea,wagashi" alt="抹茶搭配甜點" /></div>
+              <h3>抹茶</h3>
+              <p>適合草莓大福與白餡甜點，讓果酸更明顯。</p>
+            </div>
+            <div class="pairing-card taste-reveal delay-1">
+              <div class="pairing-image"><img src="https://source.unsplash.com/700x700/?hojicha,japanese-tea" alt="焙茶搭配甜點" /></div>
+              <h3>焙茶</h3>
+              <p>適合抹茶最中與銅鑼燒，茶香會把甜度收乾淨。</p>
+            </div>
+            <div class="pairing-card taste-reveal delay-2">
+              <div class="pairing-image"><img src="https://source.unsplash.com/700x700/?sencha,japanese-tea" alt="煎茶搭配甜點" /></div>
+              <h3>煎茶</h3>
+              <p>適合柚子、栗子與淡口味甜點，入口比較清爽。</p>
+            </div>
+            <div class="pairing-card taste-reveal delay-3">
+              <div class="pairing-image"><img src="https://source.unsplash.com/700x700/?japanese-tea-ceremony,dessert" alt="茶席甜點搭配" /></div>
+              <h3>茶席組</h3>
+              <p>兩款甜點加一杯茶，適合想在店裡慢慢坐的人。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reserve" class="reserve-section">
+        <div class="reserve-panel taste-reveal">
+          <div class="reserve-content">
+            <div class="section-kicker">RESERVATION</div>
+            <h2>今天想留哪一盒？</h2>
+            <p>
+              預約區放在首頁底部，讓滑完的客人能立刻行動。正式 Nuxt 版本會用 SweetAlert2 模擬預約成功，不會先串假 API。
+            </p>
+            <div class="reserve-info-list">
+              <span>地址｜台中市西區甜點路 18 號</span>
+              <span>時間｜週三至週日 11:00 - 19:00</span>
+              <span>取貨｜建議前一日預約，當日甜點售完即止</span>
+            </div>
+            <a class="taste-button" href="#"><span>開啟預約表單</span><span>→</span></a>
+          </div>
+          <div class="reserve-photo">
+            <img src="https://source.unsplash.com/1000x900/?japanese-dessert-shop,wagashi,cafe" alt="日式甜點店鋪氛圍" />
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // 控制載入動畫：等待畫面與圖片開始載入後，淡出 loading 並顯示頁面
+    window.addEventListener("load", function () {
+      var loadingScreen = document.getElementById("loadingScreen");
+      var pageShell = document.getElementById("pageShell");
+
+      setTimeout(function () {
+        document.body.classList.remove("is-loading");
+        loadingScreen.classList.add("is-hidden");
+        pageShell.classList.add("is-ready");
+      }, 900);
+    });
+
+    // 區塊進場動畫：用 IntersectionObserver 做 stagger reveal，正式 Nuxt 版本會放到 onMounted 裡
+    var revealItems = document.querySelectorAll(".taste-reveal");
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.16,
+      rootMargin: "0px 0px -8% 0px"
+    });
+
+    revealItems.forEach(function (item) {
+      revealObserver.observe(item);
+    });
+
+    // 圖片微視差：只移動少數 Hero 物件，避免整頁滾動變得雜亂
+    var parallaxItems = document.querySelectorAll("[data-parallax]");
+    var isTicking = false;
+
+    function updateParallax() {
+      var scrollY = window.scrollY || window.pageYOffset;
+
+      parallaxItems.forEach(function (item) {
+        var speed = Number(item.getAttribute("data-parallax"));
+        var offset = scrollY * speed;
+        item.style.marginTop = offset + "px";
+      });
+
+      isTicking = false;
+    }
+
+    window.addEventListener("scroll", function () {
+      if (!isTicking) {
+        window.requestAnimationFrame(updateParallax);
+        isTicking = true;
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>

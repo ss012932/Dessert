@@ -1,0 +1,83 @@
+<svg width="1440" height="2200" viewBox="0 0 1440 2200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="2200" fill="#F7F5EF"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1440" height="88" fill="#F7F5EF"/>
+  <line x1="80" y1="87.5" x2="1360" y2="87.5" stroke="#DED8CC"/>
+  <text x="80" y="54" fill="#2F2A24" font-family="Georgia, serif" font-size="28" letter-spacing="3">KASANE 菓</text>
+  <text x="760" y="54" fill="#5F594F" font-family="Arial, sans-serif" font-size="15" letter-spacing="1">今日甜點</text>
+  <text x="870" y="54" fill="#5F594F" font-family="Arial, sans-serif" font-size="15" letter-spacing="1">季節禮盒</text>
+  <text x="980" y="54" fill="#5F594F" font-family="Arial, sans-serif" font-size="15" letter-spacing="1">品牌故事</text>
+  <text x="1090" y="54" fill="#5F594F" font-family="Arial, sans-serif" font-size="15" letter-spacing="1">店鋪資訊</text>
+  <rect x="1210" y="28" width="150" height="38" rx="19" fill="#4F6F52"/>
+  <text x="1250" y="53" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="14" letter-spacing="1">預約取貨</text>
+
+  <!-- Hero section -->
+  <text x="80" y="204" fill="#4F6F52" font-family="Arial, sans-serif" font-size="14" letter-spacing="3">SEASONAL WAGASHI</text>
+  <text x="80" y="300" fill="#2F2A24" font-family="Georgia, serif" font-size="72" letter-spacing="2">一日一菓，</text>
+  <text x="80" y="390" fill="#2F2A24" font-family="Georgia, serif" font-size="72" letter-spacing="2">留一點安靜給自己</text>
+  <text x="84" y="462" fill="#756F66" font-family="Arial, sans-serif" font-size="20">以季節水果、茶香與手作餡料，做成適合午後的日式甜點。</text>
+  <rect x="80" y="520" width="158" height="52" rx="26" fill="#4F6F52"/>
+  <text x="116" y="553" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="16">查看今日甜點</text>
+  <rect x="258" y="520" width="138" height="52" rx="26" stroke="#4F6F52"/>
+  <text x="292" y="553" fill="#4F6F52" font-family="Arial, sans-serif" font-size="16">預約取貨</text>
+
+  <!-- Hero visual -->
+  <rect x="780" y="150" width="520" height="610" rx="34" fill="#FFFDF8" stroke="#E5DFD3"/>
+  <ellipse cx="1040" cy="492" rx="190" ry="74" fill="#E7DCC9"/>
+  <rect x="876" y="384" width="330" height="74" rx="37" fill="#D9C6A8"/>
+  <circle cx="955" cy="363" r="58" fill="#4F6F52"/>
+  <circle cx="1038" cy="350" r="70" fill="#F2EFE6" stroke="#B8A47E" stroke-width="6"/>
+  <circle cx="1118" cy="376" r="55" fill="#D8473D" opacity="0.75"/>
+  <rect x="868" y="610" width="350" height="28" rx="14" fill="#BBA47F"/>
+  <text x="908" y="690" fill="#756F66" font-family="Arial, sans-serif" font-size="15">主視覺使用真實甜點靜物攝影，這裡先用抽象構圖表示。</text>
+
+  <!-- Today's dessert -->
+  <text x="80" y="900" fill="#2F2A24" font-family="Georgia, serif" font-size="44">今日做好的甜點</text>
+  <text x="860" y="900" fill="#756F66" font-family="Arial, sans-serif" font-size="18">每日少量製作，售完會提早更換品項。</text>
+
+  <rect x="80" y="960" width="280" height="390" rx="26" fill="#FFFDF8" stroke="#E5DFD3"/>
+  <rect x="106" y="986" width="228" height="205" rx="22" fill="#E6E0D4"/>
+  <circle cx="220" cy="1088" r="66" fill="#4F6F52"/>
+  <text x="106" y="1245" fill="#2F2A24" font-family="Arial, sans-serif" font-size="24">抹茶柚子最中</text>
+  <text x="106" y="1284" fill="#756F66" font-family="Arial, sans-serif" font-size="16">宇治抹茶餡與柚子皮，清爽不膩。</text>
+  <text x="106" y="1325" fill="#4F6F52" font-family="Arial, sans-serif" font-size="18">NT$ 120</text>
+
+  <rect x="400" y="1018" width="280" height="332" rx="26" fill="#FFFDF8" stroke="#E5DFD3"/>
+  <rect x="426" y="1044" width="228" height="150" rx="22" fill="#E6E0D4"/>
+  <circle cx="540" cy="1120" r="52" fill="#9D7756"/>
+  <text x="426" y="1245" fill="#2F2A24" font-family="Arial, sans-serif" font-size="24">焙茶布丁</text>
+  <text x="426" y="1284" fill="#756F66" font-family="Arial, sans-serif" font-size="16">焙茶香氣厚一點，甜度低一點。</text>
+  <text x="426" y="1325" fill="#4F6F52" font-family="Arial, sans-serif" font-size="18">NT$ 95</text>
+
+  <rect x="720" y="960" width="280" height="390" rx="26" fill="#FFFDF8" stroke="#E5DFD3"/>
+  <rect x="746" y="986" width="228" height="205" rx="22" fill="#E6E0D4"/>
+  <circle cx="860" cy="1088" r="58" fill="#D8473D" opacity="0.75"/>
+  <text x="746" y="1245" fill="#2F2A24" font-family="Arial, sans-serif" font-size="24">草莓大福</text>
+  <text x="746" y="1284" fill="#756F66" font-family="Arial, sans-serif" font-size="16">柔軟麻糬包著當季草莓與白餡。</text>
+  <text x="746" y="1325" fill="#4F6F52" font-family="Arial, sans-serif" font-size="18">NT$ 130</text>
+
+  <rect x="1040" y="1018" width="280" height="332" rx="26" fill="#FFFDF8" stroke="#E5DFD3"/>
+  <rect x="1066" y="1044" width="228" height="150" rx="22" fill="#E6E0D4"/>
+  <circle cx="1180" cy="1120" r="52" fill="#C79D53"/>
+  <text x="1066" y="1245" fill="#2F2A24" font-family="Arial, sans-serif" font-size="24">栗子銅鑼燒</text>
+  <text x="1066" y="1284" fill="#756F66" font-family="Arial, sans-serif" font-size="16">栗子餡與蜂蜜餅皮，適合熱茶。</text>
+  <text x="1066" y="1325" fill="#4F6F52" font-family="Arial, sans-serif" font-size="18">NT$ 110</text>
+
+  <!-- Story -->
+  <rect x="80" y="1490" width="610" height="410" rx="34" fill="#E8E1D4"/>
+  <circle cx="385" cy="1665" r="112" fill="#F7F5EF" opacity="0.7"/>
+  <rect x="260" y="1780" width="250" height="28" rx="14" fill="#BBA47F"/>
+  <text x="770" y="1580" fill="#2F2A24" font-family="Georgia, serif" font-size="48">把季節收進一口甜裡</text>
+  <text x="774" y="1660" fill="#756F66" font-family="Arial, sans-serif" font-size="20">我們每天少量製作甜點，依照水果熟度與茶香調整甜度。</text>
+  <text x="774" y="1700" fill="#756F66" font-family="Arial, sans-serif" font-size="20">不是為了做很多，而是希望每一口都剛好。</text>
+  <line x1="774" y1="1760" x2="1260" y2="1760" stroke="#DED8CC"/>
+  <text x="774" y="1818" fill="#4F6F52" font-family="Arial, sans-serif" font-size="17">每日 11:00 開始販售，部分品項可提前預約。</text>
+
+  <!-- Reservation / info -->
+  <rect x="80" y="1990" width="1280" height="150" rx="34" fill="#2F2A24"/>
+  <text x="128" y="2062" fill="#FFFFFF" font-family="Georgia, serif" font-size="36">午後三點，店裡通常最安靜</text>
+  <text x="128" y="2104" fill="#D6CFC3" font-family="Arial, sans-serif" font-size="18">台中市西區甜點路 18 號｜週三至週日 11:00 - 19:00</text>
+  <rect x="1130" y="2042" width="150" height="48" rx="24" fill="#FFFFFF"/>
+  <text x="1172" y="2073" fill="#2F2A24" font-family="Arial, sans-serif" font-size="15">預約取貨</text>
+</svg>

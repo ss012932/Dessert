@@ -1,0 +1,1795 @@
+/* ============================================================
+  首頁精修覆蓋
+  這一段要放在 main / loading / hero / weekly 之後，負責恢復精修後的漂亮版型。
+============================================================ */
+:root {
+  --page-gutter: clamp(20px, 4vw, 56px);
+  --section-space: clamp(72px, 10vw, 128px);
+  --ink: #2f2a24;
+  --muted: #756f66;
+  --paper: #fffdf8;
+  --rice: #f8f4ec;
+  --line: #d8cebd;
+  --green: #4f6f52;
+}
+
+.section-inner {
+  width: min(1180px, calc(100% - var(--page-gutter) * 2));
+}
+
+.content-section {
+  padding: var(--section-space) var(--page-gutter);
+}
+
+/* Hero：店內環境圖當第一印象，文字區保持安靜且可讀 */
+.hero-editorial {
+  min-height: min(860px, 100svh);
+}
+
+.hero-environment {
+  background-position: center 48%;
+}
+
+.hero-editorial-inner {
+  width: min(1280px, calc(100% - var(--page-gutter) * 2));
+  padding: clamp(112px, 12vw, 160px) 0 clamp(96px, 10vw, 132px);
+}
+
+.hero-copy-panel {
+  width: min(680px, 100%);
+  margin-top: 0;
+}
+
+.hero-copy-panel .hero-title {
+  font-size: clamp(46px, 7vw, 86px);
+  line-height: .98;
+  letter-spacing: clamp(-3px, -.25vw, -1px);
+}
+
+.hero-copy-panel .hero-description {
+  max-width: 560px;
+  font-size: clamp(15px, 1.55vw, 18px);
+  line-height: 2;
+}
+
+.hero-actions {
+  flex-wrap: wrap;
+}
+
+.hero-brand-mark {
+  right: var(--page-gutter);
+  top: clamp(92px, 10vw, 132px);
+}
+
+.hero-bottom-line {
+  left: var(--page-gutter);
+  right: var(--page-gutter);
+}
+
+/* 本周新品：保留 editorial 大圖輪播的流動間距 */
+.weekly-editorial {
+  gap: clamp(28px, 5vw, 56px);
+}
+
+/* 品牌故事：非對稱 editorial，不再圖片左文字右的死板感 */
+.story-section {
+  background: linear-gradient(90deg, rgba(248, 244, 236, .92) 0%, rgba(255, 253, 248, 1) 46%, rgba(248, 244, 236, .72) 100%);
+}
+
+.story-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .92fr) minmax(360px, 1.08fr);
+  gap: clamp(28px, 6vw, 88px);
+  align-items: center;
+}
+
+.story-content {
+  grid-column: 1;
+  grid-row: 1;
+  max-width: 590px;
+  padding: clamp(24px, 5vw, 64px) 0;
+}
+
+.story-title {
+  font-size: clamp(34px, 4.3vw, 54px);
+  line-height: 1.18;
+}
+
+.story-lead {
+  font-size: clamp(15px, 1.35vw, 17px);
+}
+
+.story-visual {
+  grid-column: 2;
+  grid-row: 1;
+  min-height: clamp(520px, 58vw, 680px);
+}
+
+.story-photo-main {
+  left: 8%;
+  top: 0;
+  width: 72%;
+  height: min(560px, 74%);
+}
+
+.story-photo-side {
+  right: 0;
+  bottom: 6%;
+  width: 52%;
+  height: clamp(230px, 28vw, 340px);
+  border-width: clamp(10px, 1.3vw, 18px);
+}
+
+.story-stamp {
+  left: 0;
+  bottom: 2%;
+}
+
+.story-steps {
+  width: min(520px, 100%);
+}
+
+.story-step {
+  grid-template-columns: clamp(38px, 4vw, 54px) 1fr;
+}
+
+/* SHOP RHYTHM：中大尺寸保留圖片主體，小尺寸維持上下堆疊 */
+.quiet-section {
+  padding: clamp(78px, 10vw, 128px) var(--page-gutter);
+  background: #ebe1d1;
+}
+
+.quiet-layout {
+  position: relative;
+  display: block;
+  min-height: clamp(520px, 62vw, 720px);
+  width: min(1180px, calc(100vw - var(--page-gutter) * 2));
+}
+
+.quiet-photo {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  border: 0;
+  box-shadow: 0 30px 90px rgba(47, 42, 36, .13);
+  background-position: center;
+}
+
+.quiet-photo:before {
+  background:
+    linear-gradient(90deg, rgba(47, 42, 36, .18) 0%, rgba(47, 42, 36, .02) 48%, rgba(47, 42, 36, .42) 100%),
+    linear-gradient(180deg, rgba(47, 42, 36, .05) 0%, rgba(47, 42, 36, .36) 100%);
+}
+
+.quiet-photo-caption {
+  left: clamp(18px, 3vw, 34px);
+  bottom: clamp(18px, 3vw, 34px);
+}
+
+.quiet-letter {
+  position: absolute;
+  right: clamp(18px, 4vw, 56px);
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(520px, calc(100% - 36px));
+  padding: clamp(30px, 4.2vw, 56px);
+  background: rgba(255, 253, 248, .84);
+  backdrop-filter: blur(18px);
+}
+
+.quiet-letter h2 {
+  font-size: clamp(30px, 3.4vw, 33px);
+}
+
+.quiet-letter p {
+  font-size: clamp(14px, 1.25vw, 16px);
+}
+
+.quiet-meta {
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+
+@media (min-width: 761px) {
+  .quiet-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(360px, .82fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: stretch;
+    min-height: clamp(540px, 56vw, 700px);
+  }
+
+  .quiet-photo {
+    position: relative;
+    grid-column: 1 / 3;
+    grid-row: 1;
+    min-height: clamp(540px, 56vw, 700px);
+    background-position: center left;
+  }
+
+  .quiet-photo:before {
+    background:
+      linear-gradient(90deg, rgba(47, 42, 36, .03) 0%, rgba(47, 42, 36, .05) 48%, rgba(47, 42, 36, .62) 100%),
+      linear-gradient(180deg, rgba(47, 42, 36, .02) 0%, rgba(47, 42, 36, .28) 100%);
+  }
+
+  .quiet-letter {
+    position: relative;
+    z-index: 2;
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: end;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: min(500px, 100%);
+    margin-right: clamp(18px, 3vw, 42px);
+    background: rgba(255, 253, 248, .88);
+  }
+}
+
+@media (max-width: 1100px) {
+  .story-layout {
+    grid-template-columns: minmax(0, .95fr) minmax(330px, 1.05fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-editorial {
+    min-height: 100svh;
+  }
+
+  .hero-editorial-inner {
+    align-items: flex-end;
+    padding-bottom: 88px;
+  }
+
+  .hero-copy-panel .hero-title {
+    font-size: clamp(42px, 14vw, 58px);
+  }
+
+  .hero-copy-panel .hero-description {
+    margin-top: 22px;
+  }
+
+  .hero-brand-mark {
+    display: none;
+  }
+
+  .hero-signature-row span {
+    font-size: 11px;
+    padding: 7px 11px;
+  }
+
+  .base-button {
+    width: 100%;
+  }
+
+  .story-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .story-content {
+    grid-column: 1;
+    grid-row: 1;
+    padding-bottom: 0;
+  }
+
+  .story-visual {
+    grid-column: 1;
+    grid-row: 2;
+    min-height: 480px;
+    margin-top: 12px;
+  }
+
+  .story-photo-main {
+    left: 0;
+    width: 78%;
+    height: 360px;
+  }
+
+  .story-photo-side {
+    width: 58%;
+    height: 230px;
+  }
+
+  .story-stamp {
+    left: 14px;
+    bottom: 0;
+  }
+
+  .quiet-layout {
+    min-height: auto;
+    display: grid;
+    gap: 0;
+  }
+
+  .quiet-photo {
+    position: relative;
+    min-height: 320px;
+  }
+
+  .quiet-letter {
+    position: relative;
+    right: auto;
+    top: auto;
+    transform: none;
+    width: calc(100% - 28px);
+    margin: -42px auto 0;
+  }
+
+  .quiet-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .quiet-meta div {
+    border-right: 0;
+    border-bottom: 1px solid #e2d8c8;
+  }
+
+  .quiet-meta div:last-child {
+    border-bottom: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-signature-row {
+    display: grid;
+  }
+
+  .story-photo-main {
+    width: 86%;
+  }
+
+  .story-photo-side {
+    width: 68%;
+  }
+}
+
+/* Header：細緻日式品牌導覽 */
+.refined-header {
+  background: rgba(248, 244, 236, .72);
+  border-bottom: 1px solid rgba(216, 206, 189, .72);
+  backdrop-filter: blur(18px);
+}
+
+.refined-header-inner {
+  width: min(1180px, calc(100% - var(--page-gutter) * 2));
+  height: 74px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: clamp(18px, 3vw, 42px);
+  align-items: center;
+}
+
+.refined-header-brand {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  color: #2f2a24;
+  text-decoration: none;
+  font-family: Georgia, "Times New Roman", serif;
+  letter-spacing: 4px;
+  white-space: nowrap;
+}
+
+.refined-header-brand span {
+  font-size: 24px;
+}
+
+.refined-header-brand strong {
+  font-size: 18px;
+  font-weight: 400;
+  color: #4f6f52;
+}
+
+.refined-header-nav {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid rgba(201, 189, 169, .72);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .52);
+}
+
+.refined-header-nav a {
+  position: relative;
+  padding: 9px 15px;
+  border-radius: 999px;
+  color: #5f564d;
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 1.8px;
+  transition: color 220ms cubic-bezier(.25, 1, .5, 1), background 220ms cubic-bezier(.25, 1, .5, 1), transform 220ms cubic-bezier(.25, 1, .5, 1);
+}
+
+.refined-header-nav a:hover {
+  color: #2f2a24;
+  background: #fffdf8;
+  transform: translateY(-1px);
+}
+
+.refined-header-note {
+  color: #7b746b;
+  font-size: 11px;
+  letter-spacing: 2.8px;
+  white-space: nowrap;
+}
+
+/* Footer：移除制式資訊表，改成品牌紙卡式尾聲 */
+.refined-footer {
+  position: relative;
+  padding: clamp(70px, 8vw, 112px) var(--page-gutter) 34px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 253, 248, .08) 0 0, transparent 34%),
+    linear-gradient(135deg, #2f2a24 0%, #221f1b 100%);
+  color: rgba(255, 253, 248, .82);
+  overflow: hidden;
+}
+
+.refined-footer:before {
+  content: "";
+  position: absolute;
+  left: var(--page-gutter);
+  right: var(--page-gutter);
+  top: 32px;
+  height: 1px;
+  background: rgba(255, 253, 248, .16);
+}
+
+.refined-footer:after {
+  content: "KASANE";
+  position: absolute;
+  right: -18px;
+  bottom: 18px;
+  color: rgba(255, 253, 248, .035);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(78px, 14vw, 210px);
+  letter-spacing: 10px;
+  pointer-events: none;
+}
+
+.refined-footer-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100% - var(--page-gutter) * 2));
+  margin: auto;
+}
+
+.refined-footer-kicker {
+  margin-bottom: clamp(28px, 5vw, 58px);
+  color: rgba(215, 225, 204, .68);
+  font-size: 11px;
+  letter-spacing: 5px;
+}
+
+.refined-footer-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 30px;
+  align-items: start;
+  padding-bottom: clamp(34px, 5vw, 56px);
+  border-bottom: 1px solid rgba(255, 253, 248, .16);
+}
+
+.refined-footer-main h2 {
+  max-width: 760px;
+  margin: 0;
+  color: #fffdf8;
+  font-family: Georgia, "Times New Roman", "Microsoft JhengHei", serif;
+  font-size: clamp(38px, 6.6vw, 88px);
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -1.8px;
+}
+
+.refined-footer-seal {
+  width: clamp(74px, 8vw, 104px);
+  height: clamp(74px, 8vw, 104px);
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 253, 248, .34);
+  color: rgba(255, 253, 248, .76);
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1.4;
+  letter-spacing: 5px;
+  writing-mode: vertical-rl;
+}
+
+.refined-footer-row {
+  display: grid;
+  grid-template-columns: minmax(280px, 520px) auto;
+  gap: clamp(28px, 5vw, 78px);
+  align-items: start;
+  padding: clamp(28px, 4vw, 42px) 0;
+  border-bottom: 1px solid rgba(255, 253, 248, .16);
+}
+
+.refined-footer-row p {
+  margin: 0;
+  color: rgba(255, 253, 248, .64);
+  font-size: 15px;
+  line-height: 2;
+  letter-spacing: .8px;
+}
+
+.refined-footer-nav {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 14px 34px;
+}
+
+.refined-footer-nav a {
+  color: rgba(255, 253, 248, .78);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: 3px;
+  transition: color 220ms cubic-bezier(.25, 1, .5, 1), transform 220ms cubic-bezier(.25, 1, .5, 1);
+}
+
+.refined-footer-nav a:hover {
+  color: #fffdf8;
+  transform: translateX(3px);
+}
+
+.refined-footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-top: 24px;
+  color: rgba(255, 253, 248, .44);
+  font-size: 11px;
+  letter-spacing: 4px;
+}
+
+@media (max-width: 860px) {
+  .refined-header-inner {
+    height: auto;
+    min-height: 70px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 12px 0;
+  }
+
+  .refined-header-brand {
+    justify-content: center;
+  }
+
+  .refined-header-nav {
+    width: 100%;
+    justify-self: stretch;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .refined-header-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .refined-header-nav a {
+    flex: 0 0 auto;
+    font-size: 12px;
+  }
+
+  .refined-header-note {
+    display: none;
+  }
+
+  .refined-footer-main,
+  .refined-footer-row {
+    grid-template-columns: 1fr;
+  }
+
+  .refined-footer-seal {
+    justify-self: start;
+  }
+
+  .refined-footer-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .refined-footer-bottom {
+    display: grid;
+    gap: 10px;
+  }
+}
+
+
+/* Header final tune：Hero 上方提高可讀性，導覽字級放大 */
+.refined-header {
+  background: rgba(255, 253, 248, .88);
+  border-bottom: 1px solid rgba(216, 206, 189, .9);
+  box-shadow: 0 10px 34px rgba(47, 42, 36, .06);
+}
+
+.refined-header-inner {
+  height: 80px;
+}
+
+.refined-header-brand span {
+  font-size: 26px;
+}
+
+.refined-header-brand strong {
+  font-size: 20px;
+}
+
+.refined-header-nav {
+  background: rgba(248, 244, 236, .82);
+  border-color: rgba(184, 170, 146, .9);
+}
+
+.refined-header-nav a {
+  padding: 10px 18px;
+  color: #3f3932;
+  font-size: 14.5px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.refined-header-nav a:hover {
+  background: #fffdf8;
+  color: #2f2a24;
+}
+
+.refined-header-note {
+  color: #5f564d;
+  font-size: 12px;
+  letter-spacing: 2.6px;
+}
+
+/* Simple Footer：品牌收尾區，Logo 放大並加入柔和層次 */
+.simple-footer {
+  position: relative;
+  padding: clamp(34px, 4.6vw, 58px) var(--page-gutter);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(154, 103, 73, .22), transparent 26%),
+    radial-gradient(circle at 86% 70%, rgba(83, 107, 83, .18), transparent 24%),
+    linear-gradient(135deg, #352e27 0%, #29241f 52%, #211d19 100%);
+  color: rgba(255, 253, 248, .82);
+  overflow: hidden;
+}
+
+.simple-footer::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(255, 253, 248, .07);
+  pointer-events: none;
+}
+
+.simple-footer-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(330px, auto);
+  gap: clamp(32px, 5vw, 70px);
+  align-items: center;
+}
+
+.simple-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: clamp(22px, 3vw, 34px);
+  min-width: 0;
+}
+
+.simple-footer-mark {
+  width: 150px;
+  height: 150px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+
+
+  overflow: hidden;
+}
+
+.simple-footer-mark-image {
+  width: 78%;
+  height: 78%;
+  object-fit: contain;
+  opacity: .96;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, .18));
+}
+
+.simple-footer-brand-copy {
+  min-width: 0;
+}
+
+.simple-footer-kicker {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: rgba(215, 225, 204, .72);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 4px;
+}
+
+.simple-footer-logo {
+  margin-bottom: 10px;
+  color: #fffdf8;
+  font-family: Georgia, "Times New Roman", "Microsoft JhengHei", serif;
+  font-size: clamp(32px, 3.3vw, 48px);
+  line-height: 1;
+  letter-spacing: 4.8px;
+  text-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+}
+
+.simple-footer-brand p {
+  max-width: 420px;
+  margin: 0;
+  color: rgba(255, 253, 248, .62);
+  font-size: 13px;
+  line-height: 1.75;
+  letter-spacing: 1.1px;
+}
+
+.simple-footer-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.simple-footer-tags span {
+  padding: 7px 11px;
+  border: 1px solid rgba(255, 253, 248, .13);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .045);
+  color: rgba(255, 253, 248, .64);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 2.2px;
+}
+
+.simple-footer-side {
+  position: relative;
+  display: grid;
+  gap: 24px;
+  justify-items: end;
+  padding-left: clamp(26px, 4vw, 54px);
+}
+
+.simple-footer-side::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(255, 253, 248, .18), transparent);
+}
+
+.simple-footer-contact {
+  min-width: min(100%, 280px);
+  padding: 18px 20px;
+  border: 1px solid rgba(255, 253, 248, .1);
+  background: rgba(255, 253, 248, .045);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, .12);
+}
+
+.simple-footer-contact span {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(215, 225, 204, .72);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 3px;
+}
+
+.simple-footer-contact a {
+  color: rgba(255, 253, 248, .86);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: nowrap;
+  transition: color 220ms cubic-bezier(.25, 1, .5, 1);
+}
+
+.simple-footer-contact a:hover {
+  color: #fffdf8;
+}
+
+.simple-footer-social {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  white-space: nowrap;
+}
+
+.simple-footer-social a {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 253, 248, .24);
+  border-radius: 999px;
+  color: rgba(255, 253, 248, .78);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 1px;
+  background: rgba(255, 253, 248, .025);
+  transition: transform 220ms cubic-bezier(.25, 1, .5, 1), border-color 220ms cubic-bezier(.25, 1, .5, 1), color 220ms cubic-bezier(.25, 1, .5, 1), background-color 220ms cubic-bezier(.25, 1, .5, 1);
+}
+
+.simple-footer-social a:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 253, 248, .6);
+  background: rgba(255, 253, 248, .075);
+  color: #fffdf8;
+}
+
+@media (max-width: 900px) {
+  .refined-header-inner {
+    height: auto;
+  }
+
+  .refined-header-nav a {
+    font-size: 13.5px;
+    padding: 9px 15px;
+  }
+
+  .simple-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .simple-footer-side {
+    justify-items: start;
+    padding-left: 0;
+  }
+
+  .simple-footer-side::before {
+    display: none;
+  }
+
+  .simple-footer-contact {
+    min-width: min(100%, 360px);
+  }
+
+  .simple-footer-social {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .simple-footer {
+    padding: 34px 22px 38px;
+  }
+
+  .simple-footer::after {
+    inset: 8px;
+  }
+
+  .simple-footer-brand {
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .simple-footer-mark {
+    width: 74px;
+    height: 74px;
+  }
+
+  .simple-footer-logo {
+    font-size: 30px;
+    letter-spacing: 3.8px;
+  }
+
+  .simple-footer-brand p {
+    font-size: 12.5px;
+  }
+
+  .simple-footer-contact {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .simple-footer-contact a {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 420px) {
+  .simple-footer-brand {
+    flex-direction: column;
+  }
+
+  .simple-footer-mark {
+    width: 82px;
+    height: 82px;
+  }
+}
+
+
+/* SHOP RHYTHM meta final：改成柔和資訊列，不再像表格破碎排列 */
+.quiet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 34px;
+  margin-left: 22px;
+  padding: 0;
+  border: 0;
+}
+
+.quiet-meta div {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(216, 206, 189, .9);
+  border-radius: 999px;
+  background: rgba(255, 253, 248, .58);
+}
+
+.quiet-meta span {
+  display: inline-block;
+  margin: 0;
+  color: #4f6f52;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 2.4px;
+  white-space: nowrap;
+}
+
+.quiet-meta strong {
+  display: inline-block;
+  color: #2f2a24;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .quiet-meta {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-left: 16px;
+  }
+
+  .quiet-meta div {
+    justify-content: space-between;
+    border-right: 1px solid rgba(216, 206, 189, .9);
+    border-bottom: 1px solid rgba(216, 206, 189, .9);
+    border-radius: 16px;
+  }
+
+  .quiet-meta strong {
+    white-space: normal;
+    text-align: right;
+  }
+}
+
+/* Header：多頁式導覽的目前頁面狀態 */
+.refined-header-nav a.router-link-active,
+.refined-header-nav a.router-link-exact-active {
+  background: #fffdf8;
+  color: #2f2a24;
+  box-shadow: 0 6px 18px rgba(47, 42, 36, .06);
+}
+
+
+/* SHOP RHYTHM meta redesign：改成紙張式資訊列，避免 AI 感膠囊與線條混字 */
+.quiet-letter {
+  padding-left: clamp(42px, 4vw, 64px);
+}
+
+.quiet-letter:before {
+  left: clamp(22px, 2.4vw, 34px);
+  opacity: .72;
+}
+
+.quiet-letter .section-kicker,
+.quiet-letter h2,
+.quiet-letter p {
+  padding-left: 0;
+}
+
+.quiet-meta {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin: 36px 0 0;
+  padding: 4px 0;
+  border-top: 1px solid rgba(216, 206, 189, .92);
+  border-bottom: 1px solid rgba(216, 206, 189, .92);
+}
+
+.quiet-meta div {
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  gap: 18px;
+  align-items: center;
+  padding: 15px 0;
+  border: 0;
+  border-bottom: 1px solid rgba(226, 216, 200, .82);
+  border-radius: 0;
+  background: transparent;
+}
+
+.quiet-meta div:last-child {
+  border-bottom: 0;
+}
+
+.quiet-meta span {
+  display: block;
+  margin: 0;
+  color: #4f6f52;
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 3.2px;
+  white-space: nowrap;
+}
+
+.quiet-meta strong {
+  display: block;
+  color: #2f2a24;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: normal;
+}
+
+@media (max-width: 760px) {
+  .quiet-letter {
+    padding-left: 34px;
+  }
+
+  .quiet-letter:before {
+    left: 18px;
+  }
+
+  .quiet-letter .section-kicker,
+  .quiet-letter h2,
+  .quiet-letter p {
+    padding-left: 0;
+  }
+
+  .quiet-meta {
+    margin-left: 0;
+  }
+
+  .quiet-meta div {
+    grid-template-columns: 74px 1fr;
+    gap: 14px;
+    padding: 14px 0;
+    justify-content: initial;
+    border-right: 0;
+    border-bottom: 1px solid rgba(226, 216, 200, .82);
+    border-radius: 0;
+  }
+
+  .quiet-meta div:last-child {
+    border-bottom: 0;
+  }
+
+  .quiet-meta strong {
+    text-align: left;
+  }
+}
+
+
+/* ============================================================
+  中小尺寸精修：Header 側邊選單 / Hero 按鈕 / 本周新品閱讀節奏
+  注意：只作用在 1100px 以下，不影響大尺寸版面。
+============================================================ */
+.refined-menu-button,
+.refined-menu-backdrop,
+.refined-mobile-menu-head,
+.refined-mobile-menu-note {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  /* Hero：中尺寸按鈕改成一主一輔，避免兩顆大膠囊並排的 AI 感 */
+  .hero-copy-panel .hero-actions {
+    gap: 18px;
+    align-items: center;
+  }
+
+  .hero-copy-panel .base-button {
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 4px;
+    letter-spacing: 1.2px;
+  }
+
+  .hero-copy-panel .base-button-ghost {
+    min-height: auto;
+    padding: 0 0 6px;
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, .58);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .hero-copy-panel .base-button-ghost:hover {
+    transform: translateX(4px);
+  }
+
+  /* 本周新品：中尺寸以下改成閱讀卡，先看圖，再看重點文字 */
+  .weekly-editorial {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .weekly-photo-wrap {
+    width: min(720px, 100%);
+    margin: auto;
+    padding: clamp(14px, 2vw, 22px);
+    transform: rotate(-.6deg);
+  }
+
+  .weekly-main-photo {
+    min-height: clamp(360px, 58vw, 540px);
+  }
+
+  .weekly-notes {
+    width: min(720px, 100%);
+    margin: auto;
+    padding: 26px 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(201, 189, 169, .9);
+  }
+
+  .weekly-note-title {
+    margin-bottom: 14px;
+    font-size: 11px;
+  }
+
+  .weekly-notes h3 {
+    max-width: 640px;
+    margin-bottom: 14px;
+    font-size: clamp(31px, 5vw, 42px);
+    line-height: 1.22;
+  }
+
+  .weekly-notes p {
+    max-width: 640px;
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  .weekly-taste-line {
+    max-width: 640px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 24px;
+    padding-top: 0;
+    border-top: 1px solid rgba(216, 206, 189, .9);
+    border-bottom: 1px solid rgba(216, 206, 189, .9);
+  }
+
+  .weekly-taste-line span,
+  .weekly-taste-line b {
+    padding: 13px 0;
+  }
+
+  .weekly-taste-line span {
+    grid-row: 1;
+    font-size: 10px;
+    letter-spacing: 2.4px;
+  }
+
+  .weekly-taste-line b {
+    grid-row: 2;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+@media (max-width: 980px) {
+  /* Header：中小尺寸改成側邊漢堡選單 */
+  .refined-header-inner {
+    min-height: 70px;
+    height: 70px;
+    grid-template-columns: 1fr auto;
+    gap: 14px;
+    padding: 0;
+  }
+
+  .refined-header-brand {
+    justify-content: flex-start;
+  }
+
+  .refined-header-note {
+    display: none;
+  }
+
+  .refined-menu-button {
+    display: inline-grid;
+    place-items: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 253, 248, .72);
+    cursor: pointer;
+  }
+
+  .refined-menu-button span {
+    width: 18px;
+    height: 1px;
+    background: #2f2a24;
+  }
+
+  .refined-menu-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    display: block;
+    border: 0;
+    background: rgba(47, 42, 36, .34);
+    backdrop-filter: blur(4px);
+  }
+
+  .refined-header-nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    z-index: 11;
+    width: min(330px, 84vw);
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 26px 24px;
+    border: 0;
+    border-radius: 0;
+    background: rgba(255, 253, 248, .96);
+    box-shadow: -26px 0 70px rgba(47, 42, 36, .16);
+    transform: translateX(104%);
+    transition: transform 360ms cubic-bezier(.16, 1, .3, 1);
+    overflow-y: auto;
+  }
+
+  .refined-header-nav.is-open {
+    transform: translateX(0);
+  }
+
+  .refined-mobile-menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(216, 206, 189, .92);
+  }
+
+  .refined-mobile-menu-head span {
+    color: #4f6f52;
+    font-size: 11px;
+    letter-spacing: 4px;
+  }
+
+  .refined-mobile-menu-head button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(184, 170, 146, .72);
+    border-radius: 999px;
+    background: transparent;
+    color: #2f2a24;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .refined-header-nav a {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(226, 216, 200, .82);
+    background: transparent;
+    color: #2f2a24;
+    font-size: 17px;
+    letter-spacing: 2.2px;
+  }
+
+  .refined-header-nav a:after {
+    content: "→";
+    color: rgba(79, 111, 82, .72);
+    font-size: 14px;
+  }
+
+  .refined-header-nav a.router-link-active,
+  .refined-header-nav a.router-link-exact-active,
+  .refined-header-nav a:hover {
+    background: transparent;
+    box-shadow: none;
+    color: #4f6f52;
+    transform: none;
+  }
+
+  .refined-mobile-menu-note {
+    display: block;
+    margin-top: auto;
+    padding-top: 28px;
+    color: #756f66;
+    font-size: 12px;
+    line-height: 1.8;
+    letter-spacing: 2px;
+  }
+
+  /* Hero：手機不要兩顆大按鈕，改成品牌操作列 */
+  .hero-copy-panel .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    width: min(320px, 100%);
+  }
+
+  .hero-copy-panel .base-button {
+    width: auto;
+    justify-self: start;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+
+  .hero-copy-panel .base-button-ghost {
+    justify-self: start;
+    width: auto;
+    padding: 0 0 6px;
+    color: rgba(255, 255, 255, .86);
+    font-size: 13px;
+  }
+
+  /* 本周新品：手機只保留短閱讀，不讓圖文同時壓迫 */
+  .weekly-section {
+    overflow: hidden;
+  }
+
+  .weekly-intro {
+    margin-bottom: 28px;
+  }
+
+  .weekly-title {
+    font-size: 32px;
+  }
+
+  .weekly-photo-wrap {
+    padding: 10px;
+    transform: none;
+  }
+
+  .weekly-main-photo {
+    min-height: 330px;
+  }
+
+  .weekly-paper-label {
+    right: 12px;
+    bottom: 12px;
+    width: min(230px, calc(100% - 24px));
+    padding: 16px 18px;
+  }
+
+  .weekly-paper-label strong {
+    font-size: 19px;
+  }
+
+  .weekly-paper-label small {
+    font-size: 11px;
+  }
+
+  .weekly-notes {
+    padding-top: 22px;
+  }
+
+  .weekly-note-title {
+    margin-bottom: 12px;
+  }
+
+  .weekly-notes h3 {
+    font-size: 29px;
+  }
+
+  .weekly-notes p {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .weekly-taste-line {
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+    border-bottom: 0;
+  }
+
+  .weekly-taste-line span,
+  .weekly-taste-line b {
+    grid-row: auto;
+    padding: 0;
+  }
+
+  .weekly-taste-line span {
+    margin-top: 12px;
+  }
+
+  .weekly-taste-line b {
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(226, 216, 200, .82);
+  }
+
+  .weekly-carousel-footer {
+    gap: 14px;
+    padding-top: 18px;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero-copy-panel .hero-title {
+    font-size: clamp(40px, 13vw, 52px);
+  }
+
+  .hero-copy-panel .hero-description {
+    font-size: 14px;
+    line-height: 1.9;
+  }
+
+  .hero-signature-row {
+    display: flex;
+  }
+
+  .hero-signature-row span {
+    padding: 6px 9px;
+    font-size: 10px;
+    letter-spacing: 1.4px;
+  }
+
+  .weekly-main-photo {
+    min-height: 292px;
+  }
+
+  .weekly-notes h3 {
+    font-size: 26px;
+  }
+}
+
+
+/* ============================================================
+  本周新品中小尺寸卡片修正：拿掉突兀紙卡，改成照片下方的細緻說明列
+  只作用 1100px 以下，不影響桌機大尺寸。
+============================================================ */
+@media (max-width: 1100px) {
+  .weekly-photo-wrap {
+    display: grid;
+    gap: 16px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .weekly-main-photo {
+    border: clamp(10px, 2vw, 18px) solid #fffdf8;
+    box-shadow: 0 22px 58px rgba(47, 42, 36, .1);
+  }
+
+  .weekly-paper-label {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0 4px 0;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 4px 16px;
+    align-items: start;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .weekly-paper-label:before {
+    content: "";
+    grid-column: 1 / -1;
+    height: 1px;
+    margin-bottom: 12px;
+    background: rgba(201, 189, 169, .86);
+  }
+
+  .weekly-paper-label span {
+    grid-row: 2 / 4;
+    margin: 0;
+    color: #6e8a6f;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .weekly-paper-label strong {
+    margin: 0;
+    color: #2f2a24;
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  .weekly-paper-label small {
+    margin: 3px 0 0;
+    color: #8a8176;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 1.1px;
+  }
+}
+
+@media (max-width: 520px) {
+  .weekly-photo-wrap {
+    gap: 14px;
+  }
+
+  .weekly-main-photo {
+    min-height: 292px;
+    border-width: 10px;
+  }
+
+  .weekly-paper-label {
+    grid-template-columns: 38px 1fr;
+    gap: 3px 12px;
+    padding-inline: 2px;
+  }
+
+  .weekly-paper-label:before {
+    margin-bottom: 10px;
+  }
+
+  .weekly-paper-label span {
+    font-size: 21px;
+  }
+
+  .weekly-paper-label strong {
+    font-size: 19px;
+  }
+
+  .weekly-paper-label small {
+    font-size: 11px;
+    letter-spacing: .8px;
+  }
+}
+
+
+/* ============================================================
+  本周新品中小尺寸：拍立得式商品卡
+  保留照片 + 下方文字留白，但降低白卡突兀感，只作用 1100px 以下。
+============================================================ */
+@media (max-width: 1100px) {
+  .weekly-photo-wrap {
+    display: block;
+    width: min(720px, 100%);
+    margin-inline: auto;
+    padding: clamp(12px, 2.4vw, 20px) clamp(12px, 2.4vw, 20px) clamp(22px, 3.4vw, 34px);
+    background: #fffdf8;
+    border: 1px solid rgba(216, 206, 189, .86);
+    box-shadow: 0 24px 70px rgba(47, 42, 36, .09);
+    transform: rotate(-.7deg);
+  }
+
+  .weekly-main-photo {
+    min-height: clamp(360px, 58vw, 540px);
+    border: 0;
+    box-shadow: none;
+  }
+
+  .weekly-paper-label {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 100%;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 54px 1fr;
+    gap: 3px 16px;
+    align-items: start;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .weekly-paper-label:before {
+    content: none;
+  }
+
+  .weekly-paper-label span {
+    grid-row: 1 / 3;
+    margin: 2px 0 0;
+    color: #6e8a6f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  .weekly-paper-label strong {
+    margin: 0;
+    color: #2f2a24;
+    font-size: clamp(20px, 3vw, 24px);
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: .4px;
+  }
+
+  .weekly-paper-label small {
+    margin: 2px 0 0;
+    color: #8a8176;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 1px;
+  }
+}
+
+@media (max-width: 520px) {
+  .weekly-photo-wrap {
+    width: min(340px, 100%);
+    padding: 10px 10px 24px;
+    transform: rotate(-.45deg);
+  }
+
+  .weekly-main-photo {
+    min-height: 292px;
+  }
+
+  .weekly-paper-label {
+    grid-template-columns: 42px 1fr;
+    gap: 2px 12px;
+    margin-top: 16px;
+  }
+
+  .weekly-paper-label span {
+    font-size: 21px;
+  }
+
+  .weekly-paper-label strong {
+    font-size: 19px;
+  }
+
+  .weekly-paper-label small {
+    font-size: 11px;
+    letter-spacing: .8px;
+  }
+}
+
+
+/* ============================================================
+  本周新品中小尺寸 carousel footer：改成精緻輪播控制列
+  只作用 1100px 以下，不影響大尺寸。
+============================================================ */
+@media (max-width: 1100px) {
+  .weekly-carousel-footer {
+    width: min(720px, 100%);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "count actions"
+      "dots dots";
+    gap: 16px 18px;
+    align-items: center;
+    padding-top: 22px;
+    border-top: 1px solid rgba(216, 206, 189, .86);
+  }
+
+  .weekly-carousel-count {
+    grid-area: count;
+    font-size: 15px;
+    letter-spacing: 4px;
+    color: #4f6f52;
+  }
+
+  .weekly-carousel-actions {
+    grid-area: actions;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .weekly-carousel-button {
+    width: 38px;
+    height: 38px;
+    border-color: rgba(184, 170, 146, .9);
+    background: rgba(255, 253, 248, .72);
+    font-size: 24px;
+    box-shadow: none;
+  }
+
+  .weekly-carousel-dots {
+    grid-area: dots;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    justify-content: initial;
+    width: 100%;
+  }
+
+  .weekly-carousel-dot {
+    width: 100%;
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(201, 189, 169, .56);
+  }
+
+  .weekly-carousel-dot.is-active {
+    width: 100%;
+    background: #4f6f52;
+  }
+}
+
+@media (max-width: 520px) {
+  .weekly-carousel-footer {
+    width: min(340px, 100%);
+    gap: 14px 16px;
+    padding-top: 18px;
+  }
+
+  .weekly-carousel-count {
+    font-size: 14px;
+    letter-spacing: 3.2px;
+  }
+
+  .weekly-carousel-button {
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+  }
+
+  .weekly-carousel-dots {
+    gap: 8px;
+  }
+
+  .weekly-carousel-dot {
+    height: 5px;
+  }
+}
+
+
+/* 中小尺寸隱藏本周新品輪播圓點，只保留頁碼與左右按鈕 */
+@media (max-width: 1100px) {
+  .weekly-carousel-dots {
+    display: none;
+  }
+
+  .weekly-carousel-footer {
+    grid-template-areas: "count actions";
+    grid-template-columns: 1fr auto;
+  }
+}
+
+
+/* Header hamburger icon：使用文字 ☰，不再用 span 畫線 */
+.refined-menu-button {
+  color: #2f2a24;
+  font-size: 24px;
+  line-height: 1;
+  font-family: Arial, "Microsoft JhengHei", sans-serif;
+}
+
+.refined-menu-button span {
+  display: none;
+}

@@ -1,0 +1,92 @@
+@media (min-width: 921px) {
+  .about-page.about-page .about-intro {
+    position: relative;
+    width: min(1180px, calc(100% - var(--about-gutter) * 2));
+    padding-top: clamp(128px, 13vw, 172px);
+    padding-bottom: clamp(76px, 8vw, 110px);
+    grid-template-columns: minmax(360px, 0.74fr) minmax(540px, 1fr);
+    gap: clamp(58px, 7vw, 104px);
+    align-items: center;
+  }
+
+  .about-page.about-page .about-intro::before {
+    display: none;
+  }
+
+  .about-page.about-page .about-intro::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 34px;
+    height: 1px;
+    background: rgba(216, 206, 189, 0.86);
+    pointer-events: none;
+  }
+
+  .about-page.about-page .about-intro-text {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    padding-bottom: 0;
+  }
+
+  .about-page.about-page .about-intro-text::after {
+    content: "seasonal wagashi / tea pairing / small batch";
+    display: block;
+    width: fit-content;
+    margin-top: 34px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(216, 206, 189, 0.78);
+    color: #82796e;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .about-page.about-page .about-intro h1 {
+    max-width: 520px;
+    margin: 20px 0 24px;
+    font-size: clamp(42px, 4vw, 56px);
+    line-height: 1.28;
+    letter-spacing: -0.8px;
+  }
+
+  .about-page.about-page .about-intro p {
+    max-width: 500px;
+    font-size: 16px;
+    line-height: 2.05;
+  }
+
+  .about-page.about-page .about-intro-photo {
+    position: relative;
+    z-index: 1;
+    min-height: clamp(430px, 42vw, 550px);
+    border: 12px solid #fffdf8;
+    box-shadow: 0 24px 68px rgba(47, 42, 36, 0.11);
+    transform: none;
+  }
+
+  .about-page.about-page .about-intro-photo::before,
+  .about-page.about-page .about-intro-photo::after {
+    display: none;
+  }
+}
+
+@media (min-width: 1280px) {
+  .about-page.about-page .about-intro {
+    width: min(1220px, calc(100% - var(--about-gutter) * 2));
+    grid-template-columns: 470px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 920px) {
+  .about-page.about-page .about-intro-text::after,
+  .about-page.about-page .about-intro::before,
+  .about-page.about-page .about-intro::after,
+  .about-page.about-page .about-intro-photo::before,
+  .about-page.about-page .about-intro-photo::after {
+    display: none;
+  }
+}

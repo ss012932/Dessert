@@ -1,0 +1,172 @@
+.hero-editorial {
+  position: relative;
+  min-height: 100vh;
+  padding: 0;
+  overflow: hidden;
+  background: #2f2a24;
+}
+.hero-environment {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.05);
+  animation: heroImageIn 1400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(31, 27, 23, 0.76) 0%,
+      rgba(31, 27, 23, 0.54) 38%,
+      rgba(31, 27, 23, 0.18) 74%,
+      rgba(31, 27, 23, 0.36) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.02) 48%,
+      rgba(0, 0, 0, 0.34) 100%
+    );
+}
+.hero-editorial-inner {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  max-width: 1280px;
+  margin: auto;
+  padding: 130px 34px 110px;
+  display: flex;
+  align-items: center;
+}
+.hero-copy-panel {
+  max-width: 720px;
+  margin-top: -42px;
+  color: white;
+}
+.hero-copy-panel .hero-kicker {
+  color: #d7e1cc;
+  margin-bottom: 28px;
+}
+.hero-copy-panel .hero-title {
+  color: white;
+  font-size: 84px;
+  line-height: 1.04;
+  letter-spacing: -3px;
+  text-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+}
+.hero-copy-panel .hero-description {
+  max-width: 570px;
+  margin-top: 32px;
+  color: rgba(255, 255, 255, 0.8);
+}
+.hero-copy-panel .base-button-ghost {
+  background: rgba(255, 253, 248, 0.12);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+}
+.hero-signature-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+.hero-signature-row span {
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(10px);
+}
+.hero-brand-mark {
+  position: absolute;
+  z-index: 2;
+  right: 56px;
+  top: 132px;
+  padding: 20px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.36);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 18px;
+  line-height: 1.75;
+  letter-spacing: 6px;
+  writing-mode: vertical-rl;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+}
+.hero-bottom-line {
+  position: absolute;
+  z-index: 2;
+  left: 34px;
+  right: 34px;
+  bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+.hero-bottom-line:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.22);
+}
+.hero-editorial .hero-gallery,
+.hero-editorial .hero-photo-main,
+.hero-editorial .hero-photo-side,
+.hero-editorial .hero-note-card,
+.hero-editorial .hero-shop-note,
+.hero-editorial .steam-line {
+  display: none;
+}
+@keyframes heroImageIn {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: blur(0);
+  }
+}
+@media (max-width: 900px) {
+  .hero-editorial-inner {
+    padding: 124px 24px 96px;
+    align-items: center;
+  }
+  .hero-copy-panel {
+    margin-top: 0;
+  }
+  .hero-copy-panel .hero-title {
+    font-size: 46px;
+    letter-spacing: -1px;
+  }
+  .hero-brand-mark {
+    right: 22px;
+    top: 104px;
+    font-size: 14px;
+    letter-spacing: 4px;
+  }
+  .hero-bottom-line {
+    display: none;
+  }
+  .hero-signature-row {
+    gap: 8px;
+  }
+  .hero-signature-row span {
+    font-size: 12px;
+  }
+}

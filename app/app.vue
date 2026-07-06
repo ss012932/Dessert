@@ -111,6 +111,6 @@ useHead({
     { name: 'theme-color', content: '#4F6F52' },
     { charset: 'utf-8' },
   ],
-  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.webp' }],
+  link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }],
 });
 </script>

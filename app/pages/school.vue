@@ -359,11 +359,12 @@ function showTasteResult(type: TasteType = selectedTaste.value) {
 }
 
 useSeoMeta({
-  title: '日式甜點茶品小學堂｜日本茶入門與和菓子搭配｜KASANE 菓',
+  title: '日式甜點茶品小學堂｜日本茶入門與和菓子搭配',
   description: 'KASANE 菓小學堂整理日本茶入門、茶與和菓子搭配、抹茶、焙茶、煎茶與玄米茶的甜點推薦，第一次點茶也能快速找到適合口味。',
   ogTitle: '日式甜點茶品小學堂｜KASANE 菓',
   ogDescription: '學會抹茶、焙茶、煎茶、玄米茶與和菓子的搭配方式，用口味找到適合自己的茶與甜點。',
   ogType: 'article',
+  ogUrl: 'https://dessert.christylove.com.tw/school',
   twitterCard: 'summary_large_image',
   robots: 'index, follow',
 });

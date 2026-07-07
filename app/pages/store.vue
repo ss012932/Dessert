@@ -229,11 +229,12 @@ function toggleFaq(question: string) {
 }
 
 useSeoMeta({
-  title: '門市資訊｜預約取貨、冷藏宅配、保存方式｜KASANE 菓',
+  title: '門市資訊｜預約取貨、冷藏宅配、保存方式',
   description: '查看 KASANE 菓門市資訊、營業時間、地址、預留取貨、冷藏宅配運費、保存方式與購買常見問題。',
   ogTitle: '門市資訊｜KASANE 菓',
   ogDescription: '整理到店購買、預留取貨、冷藏宅配、保存提醒、付款與退換貨常見問題。',
   ogType: 'website',
+  ogUrl: 'https://dessert.christylove.com.tw/store',
   twitterCard: 'summary_large_image',
   robots: 'index, follow',
 });

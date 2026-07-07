@@ -115,11 +115,12 @@ function backgroundImageStyle(imageUrl: string) {
 }
 
 useSeoMeta({
-  title: '品牌故事｜KASANE 菓日式甜點與茶香手作',
+  title: '品牌故事｜日式甜點與茶香手作',
   description: '認識 KASANE 菓的品牌故事，從日式甜點、茶香、餡料甜度與少量手作細節，做出剛好的甜點溫度。',
   ogTitle: '品牌故事｜KASANE 菓',
   ogDescription: 'KASANE 菓相信甜點不只是甜，而是茶香、餡料、季節與手作細節的剛好重疊。',
   ogType: 'article',
+  ogUrl: 'https://dessert.christylove.com.tw/about',
   twitterCard: 'summary_large_image',
   robots: 'index, follow',
 });

@@ -401,11 +401,12 @@ export default {
     useTasteReveal();
 
     useSeoMeta({
-      title: '甜點菜單｜日式甜點、和菓子、茶品與禮盒｜KASANE 菓',
+      title: '甜點菜單｜日式甜點、和菓子、茶品與禮盒',
       description: '瀏覽 KASANE 菓甜點菜單，包含抹茶柚子最中、草莓白餡大福、焙茶布丁、日本茶品與季節禮盒。',
       ogTitle: '甜點菜單｜KASANE 菓',
       ogDescription: '查看日式甜點、茶品、套組與禮盒，依照和菓子、茶品、禮盒分類快速找到適合品項。',
       ogType: 'website',
+  ogUrl: 'https://dessert.christylove.com.tw/menu',
       twitterCard: 'summary_large_image',
       robots: 'index, follow',
     });

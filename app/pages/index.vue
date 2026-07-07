@@ -258,11 +258,12 @@ function backgroundImageStyle(imageUrl) {
 useTasteReveal();
 
 useSeoMeta({
-  title: 'KASANE 菓｜日式甜點、和菓子與茶香禮盒',
+  title: '日式甜點、和菓子與茶香禮盒',
   description: 'KASANE 菓提供日式甜點、和菓子、抹茶焙茶搭配與季節禮盒，整理本週新品、茶甜點搭配與預約取貨資訊。',
   ogTitle: 'KASANE 菓｜日式甜點與茶香禮盒',
   ogDescription: '少量手作日式甜點、和菓子與茶品搭配，適合內用、預約取貨與送禮。',
   ogType: 'website',
+  ogUrl: 'https://dessert.christylove.com.tw/',
   twitterCard: 'summary_large_image',
   robots: 'index, follow',
 });
